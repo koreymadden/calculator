@@ -119,7 +119,8 @@ function App() {
       allHexValues.push(newNumber)
     })
     allHexValues = allHexValues.join(' 0x')
-    setResultHex(allHexValues);
+    console.warn('allHexValues: ', allHexValues);
+    resultDisplay % 1 !== 0 ? setResultHex('') : setResultHex('0x' + allHexValues);
 
     let allCharValues = [];
     const threeCharArrayChar = resultDisplay.toString().match(/.{1,3}/g);
@@ -134,13 +135,13 @@ function App() {
     <div className="App background-two">
       <section className="button-section">
         <div className="translation-area">
-          <div className="translation-section">
+          <div className="translation-section" onClick={(e) => {navigator.clipboard.writeText(resultHex)}}>
             <div className="translation-section-top">Hexadecimal</div>
-            <div className="translation-section-bottom" onClick={(e) => {navigator.clipboard.writeText(resultDisplay)}}>0x{resultHex}</div>
+            <div className="translation-section-bottom">{resultHex}</div>
           </div>
-          <div className="translation-section">
+          <div className="translation-section" onClick={(e) => {navigator.clipboard.writeText(resultChar)}}>
             <div className="translation-section-top">Character</div>
-            <div className="translation-section-bottom" onClick={(e) => {navigator.clipboard.writeText(resultDisplay)}}>{resultChar}</div>
+            <div className="translation-section-bottom">{resultChar}</div>
           </div>
         </div>
         <div className="result-area" onClick={(e) => {navigator.clipboard.writeText(resultDisplay)}}
