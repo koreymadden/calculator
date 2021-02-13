@@ -122,7 +122,7 @@ function App() {
       function onKeyup(e) {
           if ((e.keyCode > 47 && e.keyCode < 58) || e.key === '-' || e.key === '+' || e.key === '/' || e.key === '=') {
               updateCalculator(e.key)
-          } else if (e.key === 'Escape' || e.key === 'Clear') {
+          } else if (e.key === 'Escape' || e.key === 'Clear' || e.key === 'Backspace' || e.key === 'Delete') {
               updateCalculator('C')
           } else if (e.key === '*') {
               updateCalculator('x')
