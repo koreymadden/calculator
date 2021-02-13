@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Button from "./components/Button";
-import useKeypress from './hooks/useKeypress';
 
 function App() {
 
@@ -15,8 +14,6 @@ function App() {
   const [ resultChar, setResultChar ] = useState('');
 
   const updateCalculator = (value) => {
-    console.log('value: ', value);
-    console.log('typeof: ', typeof value);
     if (resultDisplay === Infinity && value !== 'C') return
     switch (value) {
       case '%':
@@ -31,8 +28,6 @@ function App() {
       case '-':
       case '+':
         if (!currentOperator) {
-          console.error('currentOperator: ', currentOperator);
-          // debugger
           setCurrentOperator(value.indexOf('x') !== -1 ? '*' : value);
           setStatementOne(resultDisplay);
         } else if (currentOperator && statementOne !== null && statementTwo !== null) {
@@ -59,7 +54,6 @@ function App() {
         setOldStatementTwo(null)
         break;
       case '=':
-        console.error('=');
         if (statementOne !== null && statementTwo !== null && currentOperator) {
           console.debug('statementOne + currentOperator + statementTwo: ', statementOne + currentOperator + statementTwo);
           const result = eval(statementOne + currentOperator + statementTwo);
@@ -78,7 +72,6 @@ function App() {
         }
         break;
       default:
-        console.error('good: ', currentOperator);
         if (currentOperator && statementOne === null) {
           setStatementOne(resultDisplay)
           setResultDisplay(value)
@@ -90,20 +83,14 @@ function App() {
           setStatementTwo((oldValue) => oldValue + value)
           setResultDisplay((oldValue) => oldValue + value)
         } else {
-          console.warn({resultDisplay})
-          console.warn({value})
           setResultDisplay(oldValue => oldValue === 0 ? value : oldValue.toString() + value)
         }
         break;
     }
   }
 
-  useKeypress('updateCalculator', null , updateCalculator)
-
   useEffect(() => {
-    console.warn('running...')
     const activeOperator = document.getElementsByClassName('activeOperator');
-    console.log('activeOperator: ', activeOperator);
     if (activeOperator.length !== 0) activeOperator[0].classList.remove('activeOperator');
     if (currentOperator && statementTwo === null) {
       document.getElementById(currentOperator).classList.add('activeOperator');
@@ -119,7 +106,6 @@ function App() {
       allHexValues.push(newNumber)
     })
     allHexValues = allHexValues.join(' 0x')
-    console.warn('allHexValues: ', allHexValues);
     resultDisplay % 1 !== 0 ? setResultHex('') : setResultHex('0x' + allHexValues);
 
     let allCharValues = [];
@@ -131,8 +117,28 @@ function App() {
     setResultChar(allCharValues)
   }, [resultDisplay])
 
+  function KeyPresser () {
+    useEffect(() => {
+      function onKeyup(e) {
+          if ((e.keyCode > 47 && e.keyCode < 58) || e.key === '-' || e.key === '+' || e.key === '/' || e.key === '=') {
+              updateCalculator(e.key)
+          } else if (e.key === 'Escape' || e.key === 'Clear') {
+              updateCalculator('C')
+          } else if (e.key === '*') {
+              updateCalculator('x')
+          } else if (e.key === 'Enter') {
+              updateCalculator('=')
+          }
+      }
+      window.addEventListener('keyup', onKeyup);
+      return () => window.removeEventListener('keyup', onKeyup);
+    }, []);
+    return null
+  }
+
   return (
     <div className="App background-two">
+      <KeyPresser />
       <section className="button-section">
         <div className="translation-area">
           <div className="translation-section" onClick={(e) => {navigator.clipboard.writeText(resultHex)}}>
