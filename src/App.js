@@ -141,17 +141,16 @@ function App() {
       <KeyPresser />
       <section className="button-section">
         <div className="translation-area">
-          <div className="translation-section" onClick={(e) => {navigator.clipboard.writeText(resultHex)}}>
+          <div className="translation-section" onClick={() => {navigator.clipboard.writeText(resultHex)}}>
             <div className="translation-section-top">Hexadecimal</div>
             <div className="translation-section-bottom">{resultHex}</div>
           </div>
-          <div className="translation-section" onClick={(e) => {navigator.clipboard.writeText(resultChar)}}>
+          <div className="translation-section" onClick={() => {navigator.clipboard.writeText(resultChar)}}>
             <div className="translation-section-top">Character</div>
             <div className="translation-section-bottom">{resultChar}</div>
           </div>
         </div>
-        <div className="result-area" onClick={(e) => {navigator.clipboard.writeText(resultDisplay)}}
->{resultDisplay}</div>
+        <div className="result-area" onClick={() => {navigator.clipboard.writeText(resultDisplay)}}>{resultDisplay}</div>
         <div className="break"></div>
         <Button value="C" addMe="background-three color-one" updateCalculator={updateCalculator}/>
         <Button value="+/-" addMe="background-three color-one" updateCalculator={updateCalculator} />
