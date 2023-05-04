@@ -37,7 +37,7 @@ function Calculator() {
 	};
 
 	const handlePercentage = () => {
-		setCurrentDisplay((oldValue) => oldValue / 100);
+		setCurrentDisplay((oldValue) => (oldValue / 100).toString());
 	};
 
 	const handleDecimal = () => {
@@ -62,16 +62,24 @@ function Calculator() {
 		if (operator && currentDisplay && storedValue) {
 			switch (operator) {
 				case '+':
-					setCurrentDisplay(Number(storedValue) + Number(currentDisplay));
+					setCurrentDisplay(
+						(Number(storedValue) + Number(currentDisplay)).toString()
+					);
 					break;
 				case '-':
-					setCurrentDisplay(Number(storedValue) - Number(currentDisplay));
+					setCurrentDisplay(
+						(Number(storedValue) - Number(currentDisplay)).toString()
+					);
 					break;
 				case '*':
-					setCurrentDisplay(Number(storedValue) * Number(currentDisplay));
+					setCurrentDisplay(
+						(Number(storedValue) * Number(currentDisplay)).toString()
+					);
 					break;
 				case '/':
-					setCurrentDisplay(Number(storedValue) / Number(currentDisplay));
+					setCurrentDisplay(
+						(Number(storedValue) / Number(currentDisplay)).toString()
+					);
 					break;
 
 				default:
