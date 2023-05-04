@@ -77,6 +77,11 @@ body {
 	animation: ripple 1s ease-in;
 }
 
+.special-operation {
+	background-color: var(--lightgrey);
+	color: #1c1c1c;
+}
+
 .button:hover {
 	opacity: 0.75;
 }

@@ -87,14 +87,16 @@ function Calculator() {
 			<div className='display'>{currentDisplay}</div>
 			<div className='buttons'>
 				<div className='row'>
-					<div className='button' onClick={handleClear}>
+					<div className='button special-operation' onClick={handleClear}>
 						AC
 					</div>
-					<div className='button' onClick={handlePosNeg}>
+					<div className='button special-operation' onClick={handlePosNeg}>
 						+/-
 					</div>
 					<div
-						className={`button ${operator === '%' ? 'selected' : null}`}
+						className={`button special-operation ${
+							operator === '%' ? 'selected' : null
+						}`}
 						onClick={handlePercentage}
 					>
 						%
