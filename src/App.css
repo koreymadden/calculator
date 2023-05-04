@@ -15,10 +15,15 @@ body {
 	width: 100%;
 	color: var(--white);
 	font-size: 28px;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .Calculator {
 	width: 100%;
+	padding: 10px;
 }
 
 .display {
