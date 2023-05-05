@@ -33,7 +33,11 @@ function Calculator() {
 	};
 
 	const handleOperator = (operatorVal) => {
-		if (typeof storedValue !== 'string') setOperator(operatorVal);
+		if (typeof storedValue !== 'string' && operator === operatorVal) {
+			setOperator(null);
+		} else if (typeof storedValue !== 'string') {
+			setOperator(operatorVal);
+		}
 	};
 
 	const handlePercentage = () => {
@@ -41,8 +45,13 @@ function Calculator() {
 	};
 
 	const handleDecimal = () => {
-		if (currentDisplay.indexOf('.') !== -1) return;
-		setCurrentDisplay((oldValue) => oldValue + '.');
+		if (typeof storedValue !== 'string' && operator) {
+			setStoredValue(currentDisplay);
+			setCurrentDisplay('0.');
+		} else {
+			if (currentDisplay.indexOf('.') !== -1) return;
+			setCurrentDisplay((oldValue) => oldValue + '.');
+		}
 	};
 
 	const handlePosNeg = () => {
