@@ -1,9 +1,58 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
 	const [operator, setOperator] = useState(null);
 	const [storedValue, setStoredValue] = useState(null);
+
+	useEffect(() => {
+		window.addEventListener('keydown', handleKeyPressed);
+		return () => {
+			window.removeEventListener('keydown', handleKeyPressed);
+		};
+	}, []);
+
+	const handleKeyPressed = (e) => {
+		const key = e.key;
+
+		switch (key) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				handleNumber(key);
+				break;
+
+			case '.':
+				handleDecimal();
+				break;
+
+			case '+':
+			case '-':
+			case '/':
+			case '*':
+			case '%':
+				handleOperator(key);
+				break;
+
+			case 'Enter':
+				handleResult();
+				break;
+
+			case 'Escape':
+				handleClear();
+				break;
+
+			default:
+				break;
+		}
+	};
 
 	const handleClear = () => {
 		setCurrentDisplay('0');
@@ -25,8 +74,10 @@ function Calculator() {
 				(currentDisplay === '0' || currentDisplay === '-0') &&
 				numString !== '0'
 			) {
+				console.log('first num hit here', currentDisplay.toString());
 				setCurrentDisplay(numString);
 			} else {
+				console.log('following nums hit here');
 				setCurrentDisplay((oldValue) => oldValue + numString);
 			}
 		}
