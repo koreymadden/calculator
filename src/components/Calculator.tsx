@@ -1,10 +1,11 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 
 function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
-	const [operator, setOperator] = useState(null);
-	const [storedValue, setStoredValue] = useState(null);
-	const [keyDown, setKeyDown] = useState(null);
+	const [operator, setOperator] = useState<string | null>(null);
+	const [storedValue, setStoredValue] = useState<string | null>(null);
+	const [keyDown, setKeyDown] = useState<string | null>(null);
 
 	useEffect(() => {
 		window.addEventListener('keydown', handleKeyDown);
@@ -20,7 +21,7 @@ function Calculator() {
 		}
 	}, [keyDown]);
 
-	const routeKeyDown = (key) => {
+	const routeKeyDown = (key: string) => {
 		switch (key) {
 			case '0':
 			case '1':
@@ -62,7 +63,7 @@ function Calculator() {
 		}
 	};
 
-	const handleKeyDown = (e) => {
+	const handleKeyDown = (e: KeyboardEvent) => {
 		setKeyDown(e.key);
 	};
 
@@ -72,7 +73,7 @@ function Calculator() {
 		setStoredValue(null);
 	};
 
-	const handleNumber = (numString) => {
+	const handleNumber = (numString: string) => {
 		if (operator && typeof storedValue !== 'string') {
 			setStoredValue(currentDisplay);
 			setCurrentDisplay(numString);
@@ -93,7 +94,7 @@ function Calculator() {
 		}
 	};
 
-	const handleOperator = (operatorVal) => {
+	const handleOperator = (operatorVal: string) => {
 		if (typeof storedValue !== 'string' && operator === operatorVal) {
 			setOperator(null);
 		} else if (typeof storedValue !== 'string') {
@@ -104,7 +105,7 @@ function Calculator() {
 	};
 
 	const handlePercentage = () => {
-		setCurrentDisplay((oldValue) => (oldValue / 100).toString());
+		setCurrentDisplay((oldValue) => (Number(oldValue) / 100).toString());
 	};
 
 	const handleDecimal = () => {
@@ -130,7 +131,7 @@ function Calculator() {
 		}
 	};
 
-	const handleResult = (nextOperator) => {
+	const handleResult = (nextOperator: string | null = null) => {
 		if (operator && currentDisplay && storedValue) {
 			switch (operator) {
 				case '+':
@@ -158,7 +159,7 @@ function Calculator() {
 					break;
 			}
 			setStoredValue(null);
-			setOperator(nextOperator ? nextOperator : null);
+			setOperator(nextOperator);
 		}
 	};
 
@@ -249,7 +250,7 @@ function Calculator() {
 					<div className='button number' onClick={handleDecimal}>
 						.
 					</div>
-					<div className='button' onClick={handleResult}>
+					<div className='button' onClick={() => handleResult()}>
 						=
 					</div>
 				</div>
