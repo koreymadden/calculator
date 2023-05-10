@@ -39,6 +39,8 @@ body {
 	justify-content: flex-end;
 	align-items: center;
 	padding: 0 5px;
+	position: relative;
+	cursor: pointer;
 }
 
 .display-text {
@@ -46,7 +48,6 @@ body {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	display: block;
-	cursor: copy;
 }
 
 .smallerText {
@@ -125,4 +126,48 @@ body {
 	.button {
 		border-radius: 0;
 	}
+}
+
+.tooltip {
+	display: none;
+	background-color: var(--darkgrey);
+	color: var(--white);
+	bottom: 100%;
+	left: 20px;
+	top: 20px;
+	position: absolute;
+	width: 220px;
+	height: 35px;
+	transform: translateY(-50px);
+	transition: all 0.25s ease-out;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+	font-size: 16px;
+	line-height: 34px;
+	border-radius: 5px;
+}
+
+.tooltip:after {
+	border-left: solid transparent 10px;
+	border-right: solid transparent 10px;
+	border-top: solid var(--darkgrey) 10px;
+	bottom: -10px;
+	content: ' ';
+	height: 0;
+	left: 50%;
+	margin-left: 40px;
+	position: absolute;
+	width: 0;
+}
+
+.clicked-tip {
+	width: 100px;
+	left: 140px;
+}
+
+.clicked-tip::after {
+	margin-left: -10px;
+}
+
+.display:hover .tooltip {
+	display: block;
 }

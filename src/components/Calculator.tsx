@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 
 function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
+	const [toolText, setToolText] = useState('Click to copy to clipboard!');
 	const [resultDisplayed, setResultDisplayed] = useState(false);
+	const [clicked, setClicked] = useState(false);
 	const [operator, setOperator] = useState<string | null>(null);
 	const [previousOperator, setPreviousOperator] = useState<string | null>(null);
 	const [previousNumber, setPreviousNumber] = useState<string | null>(null);
 	const [storedValue, setStoredValue] = useState<string | null>(null);
 	const [keyDown, setKeyDown] = useState<string | null>(null);
+	const displayRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		window.addEventListener('keydown', handleKeyDown);
@@ -18,11 +21,28 @@ function Calculator() {
 	}, []);
 
 	useEffect(() => {
+		const displayElement = displayRef.current;
+		if (!displayElement) return;
+		displayElement.addEventListener('mouseleave', handleMouseLeave);
+		return () => {
+			displayElement.removeEventListener('mouseleave', handleMouseLeave);
+		};
+	}, []);
+
+	useEffect(() => {
 		if (keyDown !== null) {
 			routeKeyDown(keyDown);
 			setKeyDown(null);
 		}
 	}, [keyDown]);
+
+	useEffect(() => {
+		if (clicked) {
+			setToolText('Copied!');
+		} else {
+			setToolText('Click to copy to clipboard!');
+		}
+	}, [clicked]);
 
 	const routeKeyDown = (key: string) => {
 		switch (key) {
@@ -213,16 +233,25 @@ function Calculator() {
 		}
 	};
 
+	const handleCopy = () => {
+		navigator.clipboard.writeText(currentDisplay);
+		setClicked(true);
+	};
+
+	const handleMouseLeave = () => {
+		setClicked(false);
+	};
+
 	return (
 		<div className='Calculator'>
-			<div className='display'>
+			<div className='display' ref={displayRef} onClick={handleCopy}>
+				<div className={`tooltip ${clicked ? 'clicked-tip' : ''}`}>
+					{toolText}
+				</div>
 				<div
 					className={`display-text ${
 						currentDisplay.length > 13 ? 'smallerText' : ''
 					}`}
-					onClick={() => {
-						navigator.clipboard.writeText(currentDisplay);
-					}}
 				>
 					{currentDisplay}
 				</div>
