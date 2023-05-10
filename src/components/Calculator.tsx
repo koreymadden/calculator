@@ -218,7 +218,7 @@ function Calculator() {
 			<div className='display'>
 				<div
 					className={`display-text ${
-						currentDisplay.length > 15 ? 'smallerText' : ''
+						currentDisplay.length > 13 ? 'smallerText' : ''
 					}`}
 				>
 					{currentDisplay}
@@ -298,18 +298,22 @@ function Calculator() {
 						+
 					</div>
 				</div>
-				<div className='row'>
-					<div
-						className='button number double-button'
-						onClick={() => handleNumber('0')}
-					>
-						0
+				<div className='special-row'>
+					<div className='special-container'>
+						<div
+							className='button number double-button'
+							onClick={() => handleNumber('0')}
+						>
+							0
+						</div>
 					</div>
-					<div className='button number' onClick={handleDecimal}>
-						.
-					</div>
-					<div className='button' onClick={() => handleResult()}>
-						=
+					<div className='special-container'>
+						<div className='button number' onClick={handleDecimal}>
+							.
+						</div>
+						<div className='button' onClick={() => handleResult()}>
+							=
+						</div>
 					</div>
 				</div>
 			</div>
