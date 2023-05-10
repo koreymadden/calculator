@@ -5,6 +5,8 @@ function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
 	const [resultDisplayed, setResultDisplayed] = useState(false);
 	const [operator, setOperator] = useState<string | null>(null);
+	const [previousOperator, setPreviousOperator] = useState<string | null>(null);
+	const [previousNumber, setPreviousNumber] = useState<string | null>(null);
 	const [storedValue, setStoredValue] = useState<string | null>(null);
 	const [keyDown, setKeyDown] = useState<string | null>(null);
 
@@ -73,6 +75,8 @@ function Calculator() {
 		setOperator(null);
 		setStoredValue(null);
 		setResultDisplayed(false);
+		setPreviousNumber(null);
+		setPreviousOperator(null);
 	};
 
 	const handleNumber = (numString: string) => {
@@ -116,8 +120,11 @@ function Calculator() {
 	};
 
 	const handleDecimal = () => {
+		setResultDisplayed(false);
 		if (typeof storedValue !== 'string' && operator) {
 			setStoredValue(currentDisplay);
+			setCurrentDisplay('0.');
+		} else if (previousOperator && resultDisplayed) {
 			setCurrentDisplay('0.');
 		} else {
 			if (currentDisplay.indexOf('.') !== -1) return;
@@ -138,36 +145,53 @@ function Calculator() {
 		}
 	};
 
-	const handleResult = (nextOperator: string | null = null) => {
-		if (operator && currentDisplay && storedValue) {
-			switch (operator) {
+	const handleResult = (
+		nextOperator: string | null = null,
+		numberOne?: string,
+		numberTwo?: string,
+		selectedOperator?: string
+	) => {
+		if (
+			(operator || selectedOperator) &&
+			(currentDisplay || numberTwo) &&
+			(storedValue || numberOne)
+		) {
+			const firstNumber = numberOne ?? storedValue;
+			const secondNumber = numberTwo ?? currentDisplay;
+			const usedOperator = selectedOperator ?? operator;
+
+			switch (usedOperator) {
 				case '+':
 					setCurrentDisplay(
-						(Number(storedValue) + Number(currentDisplay)).toString()
+						(Number(firstNumber) + Number(secondNumber)).toString()
 					);
 					break;
 				case '-':
 					setCurrentDisplay(
-						(Number(storedValue) - Number(currentDisplay)).toString()
+						(Number(firstNumber) - Number(secondNumber)).toString()
 					);
 					break;
 				case '*':
 					setCurrentDisplay(
-						(Number(storedValue) * Number(currentDisplay)).toString()
+						(Number(firstNumber) * Number(secondNumber)).toString()
 					);
 					break;
 				case '/':
 					setCurrentDisplay(
-						(Number(storedValue) / Number(currentDisplay)).toString()
+						(Number(firstNumber) / Number(secondNumber)).toString()
 					);
 					break;
 
 				default:
 					break;
 			}
+			setPreviousOperator(usedOperator);
+			setPreviousNumber(secondNumber);
 			setStoredValue(null);
 			setOperator(nextOperator);
 			setResultDisplayed(true);
+		} else if (previousOperator && previousNumber) {
+			handleResult(null, currentDisplay, previousNumber, previousOperator);
 		}
 	};
 
