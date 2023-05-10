@@ -165,7 +165,15 @@ function Calculator() {
 
 	return (
 		<div className='Calculator'>
-			<div className='display'>{currentDisplay}</div>
+			<div className='display'>
+				<div
+					className={`display-text ${
+						currentDisplay.length > 15 ? 'smallerText' : null
+					}`}
+				>
+					{currentDisplay}
+				</div>
+			</div>
 			<div className='buttons'>
 				<div className='row'>
 					<div className='button special-operation' onClick={handleClear}>
