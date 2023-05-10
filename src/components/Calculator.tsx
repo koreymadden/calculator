@@ -220,6 +220,9 @@ function Calculator() {
 					className={`display-text ${
 						currentDisplay.length > 13 ? 'smallerText' : ''
 					}`}
+					onClick={() => {
+						navigator.clipboard.writeText(currentDisplay);
+					}}
 				>
 					{currentDisplay}
 				</div>
