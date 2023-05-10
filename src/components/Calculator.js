@@ -4,17 +4,22 @@ function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
 	const [operator, setOperator] = useState(null);
 	const [storedValue, setStoredValue] = useState(null);
+	const [keyDown, setKeyDown] = useState(null);
 
 	useEffect(() => {
-		window.addEventListener('keydown', handleKeyPressed);
+		window.addEventListener('keydown', handleKeyDown);
 		return () => {
-			window.removeEventListener('keydown', handleKeyPressed);
+			window.removeEventListener('keydown', handleKeyDown);
 		};
 	}, []);
 
-	const handleKeyPressed = (e) => {
-		const key = e.key;
+	useEffect(() => {
+		if (keyDown !== null) {
+			routeKeyDown(keyDown);
+		}
+	}, [keyDown]);
 
+	const routeKeyDown = (key) => {
 		switch (key) {
 			case '0':
 			case '1':
@@ -45,6 +50,7 @@ function Calculator() {
 				handleResult();
 				break;
 
+			case 'Backspace':
 			case 'Escape':
 				handleClear();
 				break;
@@ -52,6 +58,10 @@ function Calculator() {
 			default:
 				break;
 		}
+	};
+
+	const handleKeyDown = (e) => {
+		setKeyDown(e.key);
 	};
 
 	const handleClear = () => {
@@ -74,10 +84,8 @@ function Calculator() {
 				(currentDisplay === '0' || currentDisplay === '-0') &&
 				numString !== '0'
 			) {
-				console.log('first num hit here', currentDisplay.toString());
 				setCurrentDisplay(numString);
 			} else {
-				console.log('following nums hit here');
 				setCurrentDisplay((oldValue) => oldValue + numString);
 			}
 		}
