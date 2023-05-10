@@ -192,6 +192,24 @@ function Calculator() {
 			setResultDisplayed(true);
 		} else if (previousOperator && previousNumber) {
 			handleResult(null, currentDisplay, previousNumber, previousOperator);
+		} else if (currentDisplay && operator) {
+			switch (operator) {
+				case '+':
+					handleResult(null, currentDisplay, currentDisplay, operator);
+					break;
+				case '-':
+					handleResult(null, currentDisplay, currentDisplay, operator);
+					break;
+				case '*':
+					handleResult(null, currentDisplay, currentDisplay, operator);
+					break;
+				case '/':
+					handleResult(null, currentDisplay, currentDisplay, operator);
+					break;
+
+				default:
+					break;
+			}
 		}
 	};
 
