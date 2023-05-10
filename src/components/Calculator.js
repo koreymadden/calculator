@@ -1,9 +1,68 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
 	const [operator, setOperator] = useState(null);
 	const [storedValue, setStoredValue] = useState(null);
+	const [keyDown, setKeyDown] = useState(null);
+
+	useEffect(() => {
+		window.addEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (keyDown !== null) {
+			routeKeyDown(keyDown);
+		}
+	}, [keyDown]);
+
+	const routeKeyDown = (key) => {
+		switch (key) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				handleNumber(key);
+				break;
+
+			case '.':
+				handleDecimal();
+				break;
+
+			case '+':
+			case '-':
+			case '/':
+			case '*':
+			case '%':
+				handleOperator(key);
+				break;
+
+			case 'Enter':
+				handleResult();
+				break;
+
+			case 'Backspace':
+			case 'Escape':
+				handleClear();
+				break;
+
+			default:
+				break;
+		}
+	};
+
+	const handleKeyDown = (e) => {
+		setKeyDown(e.key);
+	};
 
 	const handleClear = () => {
 		setCurrentDisplay('0');
