@@ -168,7 +168,7 @@ function Calculator() {
 			<div className='display'>
 				<div
 					className={`display-text ${
-						currentDisplay.length > 15 ? 'smallerText' : null
+						currentDisplay.length > 15 ? 'smallerText' : ''
 					}`}
 				>
 					{currentDisplay}
@@ -184,14 +184,14 @@ function Calculator() {
 					</div>
 					<div
 						className={`button special-operation ${
-							operator === '%' ? 'selected' : null
+							operator === '%' ? 'selected' : ''
 						}`}
 						onClick={handlePercentage}
 					>
 						%
 					</div>
 					<div
-						className={`button ${operator === '/' ? 'selected' : null}`}
+						className={`button ${operator === '/' ? 'selected' : ''}`}
 						onClick={() => handleOperator('/')}
 					>
 						/
@@ -208,7 +208,7 @@ function Calculator() {
 						9
 					</div>
 					<div
-						className={`button ${operator === '*' ? 'selected' : null}`}
+						className={`button ${operator === '*' ? 'selected' : ''}`}
 						onClick={() => handleOperator('*')}
 					>
 						x
@@ -225,7 +225,7 @@ function Calculator() {
 						6
 					</div>
 					<div
-						className={`button ${operator === '-' ? 'selected' : null}`}
+						className={`button ${operator === '-' ? 'selected' : ''}`}
 						onClick={() => handleOperator('-')}
 					>
 						-
@@ -242,7 +242,7 @@ function Calculator() {
 						3
 					</div>
 					<div
-						className={`button ${operator === '+' ? 'selected' : null}`}
+						className={`button ${operator === '+' ? 'selected' : ''}`}
 						onClick={() => handleOperator('+')}
 					>
 						+

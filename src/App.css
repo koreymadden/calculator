@@ -72,6 +72,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	line-height: 80px;
 	border-radius: 40px;
 	cursor: pointer;
 	user-select: none;
