@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 function Calculator() {
 	const [currentDisplay, setCurrentDisplay] = useState('0');
+	const [resultDisplayed, setResultDisplayed] = useState(false);
 	const [operator, setOperator] = useState<string | null>(null);
 	const [storedValue, setStoredValue] = useState<string | null>(null);
 	const [keyDown, setKeyDown] = useState<string | null>(null);
@@ -71,6 +72,7 @@ function Calculator() {
 		setCurrentDisplay('0');
 		setOperator(null);
 		setStoredValue(null);
+		setResultDisplayed(false);
 	};
 
 	const handleNumber = (numString: string) => {
@@ -88,6 +90,9 @@ function Calculator() {
 				numString !== '0'
 			) {
 				setCurrentDisplay(numString);
+			} else if (resultDisplayed) {
+				setCurrentDisplay(numString);
+				setResultDisplayed(false);
 			} else {
 				setCurrentDisplay((oldValue) => oldValue + numString);
 			}
@@ -95,6 +100,7 @@ function Calculator() {
 	};
 
 	const handleOperator = (operatorVal: string) => {
+		setResultDisplayed(false);
 		if (typeof storedValue !== 'string' && operator === operatorVal) {
 			setOperator(null);
 		} else if (typeof storedValue !== 'string') {
@@ -106,6 +112,7 @@ function Calculator() {
 
 	const handlePercentage = () => {
 		setCurrentDisplay((oldValue) => (Number(oldValue) / 100).toString());
+		setResultDisplayed(true);
 	};
 
 	const handleDecimal = () => {
@@ -160,6 +167,7 @@ function Calculator() {
 			}
 			setStoredValue(null);
 			setOperator(nextOperator);
+			setResultDisplayed(true);
 		}
 	};
 
