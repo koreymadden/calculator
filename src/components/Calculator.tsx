@@ -21,6 +21,7 @@ function Calculator() {
 	}, []);
 
 	useEffect(() => {
+		// add event listener to display element so we know when to reset the tooltip message
 		const displayElement = displayRef.current;
 		if (!displayElement) return;
 		displayElement.addEventListener('mouseleave', handleMouseLeave);
@@ -37,6 +38,7 @@ function Calculator() {
 	}, [keyDown]);
 
 	useEffect(() => {
+		// change tooltip message when the display is clicked
 		if (clicked) {
 			setToolText('Copied!');
 		} else {
